@@ -1,0 +1,64 @@
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+class yearValue {
+    private long year;
+    private long popValue;
+    yearValue(long year, long popValue){
+        this.year = year;
+        this.popValue = popValue;
+    }
+
+    long getYear(){
+        return this.year;
+    }
+    long getPopValue(){
+        return this.popValue;
+    }
+}
+
+public class Nowa {
+    public static void main(String[] args) throws IOException {
+        System.out.println("dupa");
+
+        long maxDifference = 0;
+        long currentYer = 0;
+
+        long currentMaxPop = 0;
+        long currentMaxYear = 0;
+
+        ArrayList<yearValue> list = new ArrayList<yearValue>();
+        Scanner scanner = new Scanner(new URL("https://stepik.org/media/attachments/lesson/91069/dataset_91069.txt").openStream(), "UTF-8");
+        scanner.nextLine();
+        while (scanner.hasNext()) {
+            String[] strArr = scanner.nextLine().split("\\s+");
+            long tempYear = Long.parseLong(strArr[0]);
+
+            long tempPop = Long.parseLong(strArr[1].replace(",",""));
+            System.out.println(tempPop);
+            System.out.println(tempYear);
+            list.add(new yearValue(tempYear, tempPop));
+        }
+
+
+        for (int i = 0; i < list.size()-1; i++) {
+            System.out.println(list.get(i).getYear());
+            System.out.println(list.get(i).getPopValue());
+            currentMaxPop=list.get(i+1).getPopValue()-list.get(i).getPopValue();
+            currentMaxYear = list.get(i+1).getYear();
+
+            if(currentMaxPop > maxDifference) {
+                maxDifference = currentMaxPop;
+                currentYer = currentMaxYear;
+            }
+        }
+        System.out.println(maxDifference);
+        System.out.println(currentYer);
+
+    }
+
+}
